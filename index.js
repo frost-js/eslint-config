@@ -1,8 +1,10 @@
+import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 import perfectionist from 'eslint-plugin-perfectionist';
 import globals from 'globals';
 
 const rules = {
+    ...js.configs.recommended.rules,
     '@stylistic/array-bracket-newline': 'off',
     '@stylistic/array-bracket-spacing': [
         'error',
@@ -97,7 +99,6 @@ const rules = {
             properties: 'never',
         },
     ],
-    'constructor-super': 'error',
     'curly': [
         'error',
         'multi-line',
@@ -110,14 +111,13 @@ const rules = {
     'no-extend-native': 'error',
     'no-extra-bind': 'error',
     'no-invalid-this': 'off',
-    'no-irregular-whitespace': 'error',
     'no-multi-str': 'error',
+    'no-nested-ternary': 'error',
     'no-new-object': 'error',
     'no-new-symbol': 'error',
     'no-new-wrappers': 'error',
     'no-throw-literal': 'error',
-    'no-unexpected-multiline': 'error',
-    'no-this-before-super': 'error',
+    'no-unneeded-ternary': 'error',
     'no-unused-vars': [
         'error',
         {
@@ -126,7 +126,6 @@ const rules = {
         },
     ],
     'no-var': 'error',
-    'no-with': 'error',
     'one-var': [
         'error',
         {

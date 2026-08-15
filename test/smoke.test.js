@@ -45,6 +45,26 @@ describe('environment configs', function() {
 describe('base rules', function() {
     this.timeout(10000);
 
+    it('inherits the ESLint recommended rules', async () => {
+        const messages = await lintText('missingReference;\n', [
+            frostConfig,
+        ]);
+
+        assert.strictEqual(hasRule(messages, 'no-undef'), true);
+    });
+
+    it('disallows nested and unneeded ternaries', async () => {
+        const nestedMessages = await lintText('const value = first ? second ? 1 : 2 : 3;\nvoid value;\n', [
+            frostConfig,
+        ]);
+        const unneededMessages = await lintText('const value = condition ? true : false;\nvoid value;\n', [
+            frostConfig,
+        ]);
+
+        assert.strictEqual(hasRule(nestedMessages, 'no-nested-ternary'), true);
+        assert.strictEqual(hasRule(unneededMessages, 'no-unneeded-ternary'), true);
+    });
+
     it('no-unused-vars only ignores names that start with an underscore', async () => {
         const allowedMessages = await lintText('function example(_unusedArg) { return 1; }\nexample();\n', [
             frostConfig,
@@ -181,15 +201,23 @@ void Example;
     #beta = 1;
     #eta = 2;
 
-    static beta() {}
+    static beta() {
+        return this.#delta();
+    }
 
-    static #delta() {}
+    static #delta() {
+        return this.#gamma + this.#theta;
+    }
 
     constructor() {}
 
-    gamma() {}
+    gamma() {
+        return this.#epsilon();
+    }
 
-    #epsilon() {}
+    #epsilon() {
+        return this.#beta + this.#eta;
+    }
 }
 
 void Example;
