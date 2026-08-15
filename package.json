@@ -1,6 +1,6 @@
 {
     "name": "@fr0st/eslint-config",
-    "version": "3.0.1",
+    "version": "4.0.0",
     "description": "ESLint shareable config for the Frost style.",
     "keywords": [
         "code",
