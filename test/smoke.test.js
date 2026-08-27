@@ -1,24 +1,7 @@
 import assert from 'node:assert/strict';
-import { ESLint } from 'eslint';
 import { describe, it } from 'mocha';
 import frostConfig, { browserConfig, nodeConfig } from './../index.js';
-
-async function lintText(source, config) {
-    const eslint = new ESLint({
-        overrideConfig: config,
-        overrideConfigFile: true,
-    });
-
-    const [result] = await eslint.lintText(source, {
-        filePath: 'fixture.js',
-    });
-
-    return result.messages;
-}
-
-function hasRule(messages, ruleId) {
-    return messages.some((message) => message.ruleId === ruleId);
-}
+import { hasRule, lintText } from './support.js';
 
 describe('environment configs', function() {
     this.timeout(10000);
@@ -75,6 +58,60 @@ describe('base rules', function() {
 
         assert.strictEqual(hasRule(allowedMessages, 'no-unused-vars'), false);
         assert.strictEqual(hasRule(disallowedMessages, 'no-unused-vars'), true);
+    });
+
+    it('requires JSDoc for exported functions and methods, but not internal functions', async () => {
+        const declarationMessages = await lintText('export function example() {}\n', [
+            frostConfig,
+        ]);
+        const arrowMessages = await lintText('export const example = () => {};\n', [
+            frostConfig,
+        ]);
+        const expressionMessages = await lintText('export const example = function() {};\n', [
+            frostConfig,
+        ]);
+        const methodMessages = await lintText(`export class Example {
+    method() {}
+}
+`, [
+            frostConfig,
+        ]);
+        const internalMessages = await lintText(`function declaration() {}
+const arrow = () => {};
+const expression = function() {};
+class Example {
+    method() {}
+}
+
+declaration();
+arrow();
+expression();
+new Example().method();
+`, [
+            frostConfig,
+        ]);
+        const objectMethodMessages = await lintText(`export const example = {
+    method() {},
+};
+`, [
+            frostConfig,
+        ]);
+        const nestedMessages = await lintText(`/** Run the example. */
+export function example() {
+    const nested = () => {};
+    nested();
+}
+`, [
+            frostConfig,
+        ]);
+
+        assert.strictEqual(hasRule(declarationMessages, 'jsdoc/require-jsdoc'), true);
+        assert.strictEqual(hasRule(arrowMessages, 'jsdoc/require-jsdoc'), true);
+        assert.strictEqual(hasRule(expressionMessages, 'jsdoc/require-jsdoc'), true);
+        assert.strictEqual(hasRule(methodMessages, 'jsdoc/require-jsdoc'), true);
+        assert.strictEqual(hasRule(internalMessages, 'jsdoc/require-jsdoc'), false);
+        assert.strictEqual(hasRule(objectMethodMessages, 'jsdoc/require-jsdoc'), false);
+        assert.strictEqual(hasRule(nestedMessages, 'jsdoc/require-jsdoc'), false);
     });
 
     it('enforces import declaration ordering', async () => {

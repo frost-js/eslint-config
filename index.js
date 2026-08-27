@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
+import jsdoc from 'eslint-plugin-jsdoc';
 import perfectionist from 'eslint-plugin-perfectionist';
 import globals from 'globals';
 
@@ -104,6 +105,39 @@ const rules = {
         'multi-line',
     ],
     'guard-for-in': 'error',
+    'jsdoc/check-alignment': 'error',
+    'jsdoc/check-param-names': 'error',
+    'jsdoc/check-property-names': 'error',
+    'jsdoc/check-tag-names': 'error',
+    'jsdoc/check-types': 'error',
+    'jsdoc/empty-tags': 'error',
+    'jsdoc/require-jsdoc': [
+        'error',
+        {
+            publicOnly: true,
+            require: {
+                ArrowFunctionExpression: true,
+                FunctionDeclaration: true,
+                FunctionExpression: true,
+                MethodDefinition: true,
+            },
+        },
+    ],
+    'jsdoc/require-param': 'error',
+    'jsdoc/require-param-description': 'error',
+    'jsdoc/require-param-name': 'error',
+    'jsdoc/require-param-type': 'error',
+    'jsdoc/require-property': 'error',
+    'jsdoc/require-property-description': 'error',
+    'jsdoc/require-property-name': 'error',
+    'jsdoc/require-property-type': 'error',
+    'jsdoc/require-returns': 'error',
+    'jsdoc/require-returns-check': 'error',
+    'jsdoc/require-returns-description': 'error',
+    'jsdoc/require-returns-type': 'error',
+    'jsdoc/require-throws-description': 'error',
+    'jsdoc/require-throws-type': 'error',
+    'jsdoc/valid-types': 'error',
     'new-cap': 'error',
     'no-array-constructor': 'error',
     'no-caller': 'error',
@@ -240,6 +274,7 @@ const rules = {
 export const baseConfig = {
     name: '@fr0st/eslint-config/base',
     plugins: {
+        jsdoc,
         perfectionist,
         '@stylistic': stylistic,
     },
