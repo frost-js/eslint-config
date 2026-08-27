@@ -111,6 +111,14 @@ const rules = {
     'jsdoc/check-tag-names': 'error',
     'jsdoc/check-types': 'error',
     'jsdoc/empty-tags': 'error',
+    'jsdoc/prefer-import-tag': [
+        'error',
+        {
+            enableFixer: true,
+            exemptTypedefs: false,
+            outputType: 'named-import',
+        },
+    ],
     'jsdoc/require-jsdoc': [
         'error',
         {
@@ -258,6 +266,15 @@ const rules = {
             order: 'asc',
             sortSideEffects: false,
             newlinesBetween: 0,
+        },
+    ],
+    'perfectionist/sort-named-imports': [
+        'error',
+        {
+            type: 'natural',
+            order: 'asc',
+            specialCharacters: 'trim',
+            newlinesInside: 0,
         },
     ],
     'prefer-const': [

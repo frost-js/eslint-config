@@ -114,6 +114,34 @@ export function example() {
         assert.strictEqual(hasRule(nestedMessages, 'jsdoc/require-jsdoc'), false);
     });
 
+    it('prefers file-level JSDoc imports over inline imports', async () => {
+        const inlineMessages = await lintText(`/**
+ * Read a config.
+ * @param {import('eslint').Linter.Config} config The config to read.
+ */
+export function readConfig(config) {
+    void config;
+}
+`, [
+            frostConfig,
+        ]);
+        const importTagMessages = await lintText(`/** @import { Linter } from 'eslint'; */
+
+/**
+ * Read a config.
+ * @param {Linter.Config} config The config to read.
+ */
+export function readConfig(config) {
+    void config;
+}
+`, [
+            frostConfig,
+        ]);
+
+        assert.strictEqual(hasRule(inlineMessages, 'jsdoc/prefer-import-tag'), true);
+        assert.strictEqual(hasRule(importTagMessages, 'jsdoc/prefer-import-tag'), false);
+    });
+
     it('enforces import declaration ordering', async () => {
         const allowedMessages = await lintText(`import fs from 'node:fs';
 import react from 'react';
@@ -141,6 +169,40 @@ void sibling;
 
         assert.strictEqual(hasRule(allowedMessages, 'perfectionist/sort-imports'), false);
         assert.strictEqual(hasRule(disallowedMessages, 'perfectionist/sort-imports'), true);
+    });
+
+    it('enforces natural ordering for named imports', async () => {
+        const allowedMessages = await lintText(`import { _alpha, beta, item2, item10 } from 'example';
+
+void _alpha;
+void beta;
+void item2;
+void item10;
+`, [
+            frostConfig,
+        ]);
+        const disallowedMessages = await lintText(`import { beta, alpha } from 'example';
+
+void alpha;
+void beta;
+`, [
+            frostConfig,
+        ]);
+        const disallowedSpacingMessages = await lintText(`import {
+    alpha,
+
+    beta,
+} from 'example';
+
+void alpha;
+void beta;
+`, [
+            frostConfig,
+        ]);
+
+        assert.strictEqual(hasRule(allowedMessages, 'perfectionist/sort-named-imports'), false);
+        assert.strictEqual(hasRule(disallowedMessages, 'perfectionist/sort-named-imports'), true);
+        assert.strictEqual(hasRule(disallowedSpacingMessages, 'perfectionist/sort-named-imports'), true);
     });
 
     it('enforces re-export declaration ordering', async () => {
