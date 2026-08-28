@@ -1,11 +1,9 @@
 import assert from 'node:assert/strict';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 import frostConfig, { browserConfig, nodeConfig } from './../index.js';
 import { hasRule, lintText } from './support.js';
 
-describe('environment configs', function() {
-    this.timeout(10000);
-
+describe('environment configs', () => {
     it('browserConfig exposes browser globals', async () => {
         const messages = await lintText('window.location.href;\n', [
             frostConfig,
@@ -25,9 +23,7 @@ describe('environment configs', function() {
     });
 });
 
-describe('base rules', function() {
-    this.timeout(10000);
-
+describe('base rules', () => {
     it('inherits the ESLint recommended rules', async () => {
         const messages = await lintText('missingReference;\n', [
             frostConfig,
