@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'vitest';
 import frostConfig, { browserConfig, nodeConfig } from './../index.js';
-import { hasRule, lintText } from './support.js';
+import { hasRule, lintText } from './support/lint.js';
 
 describe('environment configs', () => {
     it('browserConfig exposes browser globals', async () => {
