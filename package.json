@@ -1,6 +1,6 @@
 {
     "name": "@fr0st/eslint-config",
-    "version": "5.0.2",
+    "version": "5.0.3",
     "description": "ESLint shareable config for the Frost style.",
     "keywords": [
         "code",
@@ -10,14 +10,14 @@
         "linter",
         "eslint"
     ],
-    "homepage": "https://github.com/elusivecodes/ESLint-Config",
+    "homepage": "https://github.com/frost-js/eslint-config",
     "bugs": {
-        "url": "https://github.com/elusivecodes/ESLint-Config/issues",
+        "url": "https://github.com/frost-js/eslint-config/issues",
         "email": "elusivecodes@gmail.com"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/elusivecodes/ESLint-Config.git"
+        "url": "git+https://github.com/frost-js/eslint-config.git"
     },
     "license": "MIT",
     "author": "Elusive <elusivecodes@gmail.com>",

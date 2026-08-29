@@ -1,9 +1,9 @@
 # Frost ESLint Config
 
-[![CI](https://github.com/elusivecodes/ESLint-Config/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/elusivecodes/ESLint-Config/actions/workflows/ci.yml)
+[![CI](https://github.com/frost-js/eslint-config/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/frost-js/eslint-config/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/%40fr0st%2Feslint-config?style=flat-square)](https://www.npmjs.com/package/@fr0st/eslint-config)
 [![npm downloads](https://img.shields.io/npm/dm/%40fr0st%2Feslint-config?style=flat-square)](https://www.npmjs.com/package/@fr0st/eslint-config)
-[![license](https://img.shields.io/github/license/elusivecodes/ESLint-Config?style=flat-square)](./LICENSE)
+[![license](https://img.shields.io/github/license/frost-js/eslint-config?style=flat-square)](./LICENSE)
 
 ESLint shareable config for the *Frost* style.
 
