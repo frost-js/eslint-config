@@ -53,6 +53,12 @@ export default [
 
 The base config enforces four-space indentation, single quotes, constructor parentheses, shorthand properties, and arrow callbacks where a regular function is not needed. Equality comparisons use `===` and `!==`, with `value == null` and `value != null` allowed for nullish checks.
 
+Use `Number(value)`, `Boolean(value)`, and `String(value)` for explicit conversions, and test truthiness directly in conditions. Use `Number(value)` for complete numeric values, `Number.isInteger` to validate whole numbers, and `Math.trunc` to truncate an existing number.
+
+Use `Number.parseFloat` for intentional numeric-prefix parsing, such as CSS values ending in `px` or `s`. Use `Number.parseInt` for intentional integer-prefix parsing or a specific radix. Choose the radix for the input format and preserve existing inferred-radix behavior when refactoring. These parsers intentionally accept trailing text and should remain distinct from `Number(value)`.
+
+Use template literals to compose strings. Existing template coercion can also remain where rejecting Symbol values is part of the behavior, because `String(value)` accepts Symbols.
+
 ## Compatibility
 
 - Node: `^20.19.0 || ^22.13.0 || >=24`
