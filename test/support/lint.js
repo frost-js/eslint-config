@@ -3,7 +3,7 @@
 import { ESLint } from 'eslint';
 
 /**
- * Determine whether lint messages include a rule.
+ * Determines whether lint messages include a rule.
  * @param {Linter.LintMessage[]} messages The lint messages.
  * @param {string} ruleId The rule identifier to find.
  * @returns {boolean} Whether the rule is present.
@@ -13,7 +13,7 @@ export function hasRule(messages, ruleId) {
 }
 
 /**
- * Lint source text with the supplied flat config.
+ * Lints source text with the supplied flat config.
  * @param {string} source The source text to lint.
  * @param {Linter.Config[]} config The flat config to apply.
  * @returns {Promise<Linter.LintMessage[]>} The lint messages.

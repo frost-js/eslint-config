@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'vitest';
-import frostConfig, { browserConfig, nodeConfig } from './../index.js';
+import frostConfig, { browserConfig, nodeConfig } from '../index.js';
 import { hasRule, lintText } from './support/lint.js';
 
 describe('environment configs', () => {
@@ -24,6 +24,31 @@ describe('environment configs', () => {
 });
 
 describe('base rules', () => {
+    it.each([
+        ['@stylistic/new-parens', 'new Map();', 'new Map;'],
+        ['@stylistic/no-extra-semi', 'function example() {}\nexample();', 'function example() {};\nexample();'],
+        ['@stylistic/space-infix-ops', 'const value = 1 + 2;\nvoid value;', 'const value = 1+2;\nvoid value;'],
+        ['eqeqeq', 'const value = 1;\nvoid (value === 1);', 'const value = 1;\nvoid (value == 1);'],
+        ['object-shorthand', 'const value = 1;\nvoid { value };', 'const value = 1;\nvoid { value: value };'],
+        ['prefer-arrow-callback', '[1].map((value) => value);', '[1].map(function(value) { return value; });'],
+    ])('enforces %s', async (ruleId, allowed, disallowed) => {
+        const allowedMessages = await lintText(`${allowed}\n`, [frostConfig]);
+        const disallowedMessages = await lintText(`${disallowed}\n`, [frostConfig]);
+
+        assert.strictEqual(hasRule(allowedMessages, ruleId), false);
+        assert.strictEqual(hasRule(disallowedMessages, ruleId), true);
+    });
+
+    it('allows nullish equality checks and callbacks that use their own receiver', async () => {
+        const messages = await lintText(`const value = 1;
+void (value == null);
+[1].map(function() { return this.value; });
+`, [frostConfig]);
+
+        assert.strictEqual(hasRule(messages, 'eqeqeq'), false);
+        assert.strictEqual(hasRule(messages, 'prefer-arrow-callback'), false);
+    });
+
     it('inherits the ESLint recommended rules', async () => {
         const messages = await lintText('missingReference;\n', [
             frostConfig,
@@ -112,7 +137,7 @@ export function example() {
 
     it('prefers file-level JSDoc imports over inline imports', async () => {
         const inlineMessages = await lintText(`/**
- * Read a config.
+ * Reads a config.
  * @param {import('eslint').Linter.Config} config The config to read.
  */
 export function readConfig(config) {
@@ -124,7 +149,7 @@ export function readConfig(config) {
         const importTagMessages = await lintText(`/** @import { Linter } from 'eslint'; */
 
 /**
- * Read a config.
+ * Reads a config.
  * @param {Linter.Config} config The config to read.
  */
 export function readConfig(config) {

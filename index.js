@@ -34,12 +34,15 @@ const rules = {
         'error',
         4,
         {
+            ignoredNodes: ['LogicalExpression > *'],
             MemberExpression: 'off',
             SwitchCase: 1,
         },
     ],
     '@stylistic/key-spacing': 'error',
     '@stylistic/keyword-spacing': 'error',
+    '@stylistic/new-parens': 'error',
+    '@stylistic/no-extra-semi': 'error',
     '@stylistic/no-mixed-spaces-and-tabs': 'error',
     '@stylistic/no-multi-spaces': 'error',
     '@stylistic/no-multiple-empty-lines': [
@@ -85,6 +88,7 @@ const rules = {
             named: 'never',
         },
     ],
+    '@stylistic/space-infix-ops': 'error',
     '@stylistic/spaced-comment': [
         'error',
         'always',
@@ -104,6 +108,7 @@ const rules = {
         'error',
         'multi-line',
     ],
+    'eqeqeq': ['error', 'always', { null: 'ignore' }],
     'guard-for-in': 'error',
     'jsdoc/check-alignment': 'error',
     'jsdoc/check-param-names': 'error',
@@ -168,6 +173,7 @@ const rules = {
         },
     ],
     'no-var': 'error',
+    'object-shorthand': 'error',
     'one-var': [
         'error',
         {
@@ -277,6 +283,7 @@ const rules = {
             newlinesInside: 0,
         },
     ],
+    'prefer-arrow-callback': 'error',
     'prefer-const': [
         'error',
         {

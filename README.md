@@ -17,7 +17,7 @@ npm i -D @fr0st/eslint-config eslint
 
 Browser projects:
 
-```javascript
+```js
 import frostConfig, { browserConfig } from '@fr0st/eslint-config';
 
 export default [
@@ -28,7 +28,7 @@ export default [
 
 Node projects:
 
-```javascript
+```js
 import frostConfig, { nodeConfig } from '@fr0st/eslint-config';
 
 export default [
@@ -39,7 +39,7 @@ export default [
 
 If you want to scope the config to specific files, wrap it in your own config object:
 
-```javascript
+```js
 import frostConfig, { nodeConfig } from '@fr0st/eslint-config';
 
 export default [
@@ -51,17 +51,23 @@ export default [
 ];
 ```
 
+The base config enforces four-space indentation, single quotes, constructor parentheses, shorthand properties, and arrow callbacks where a regular function is not needed. Equality comparisons use `===` and `!==`, with `value == null` and `value != null` allowed for nullish checks.
+
 ## Compatibility
 
-- Node `^20.19.0 || ^22.13.0 || >=24`
-- ESLint `^10.0.0`
+- Node: `^20.19.0 || ^22.13.0 || >=24`
+- ESLint: `^10.0.0`
 
 ## Development
+
+Install dependencies with `npm ci`.
 
 ```bash
 npm test
 npm run lint
 ```
+
+`npm test` runs the Vitest suite against the shared config.
 
 ## License
 
